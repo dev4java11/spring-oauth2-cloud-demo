@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+   	    
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/template.css}">
+    
+    <title>...::: Oauth2 :::....</title>
+</head>
+
+<body>
+	<p th:if="${param.error}">
+	  Login failed ...
+	</p>
+	
+	<p th:if="${param.logout}">
+		Logout succeeded.
+	</p>
+
+	<div class="container">
+	    <div class="row">
+	      <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+	        <div class="card card-signin my-5">
+	          <div class="card-body">
+	            <h5 class="card-title text-center">Sign In</h5>
+	            <form method="post" th:action="@{/do-login}" class="form-signin">
+	              
+	              <div class="form-label-group">
+	                <input id="itUsername" type="text" name="username" class="form-control" placeholder="Username" required autofocus />
+	                <label for="itUsername">Username</label>
+	              </div>
+	
+	              <div class="form-label-group">
+	                <input id="itPassword" type="password" name="password" class="form-control" placeholder="Password" required />
+	                <label for="itPassword">Password</label>
+	              </div>
+	
+	              <div class="custom-control custom-checkbox mb-3" th:if="${false}">
+	                <input type="checkbox" class="custom-control-input" id="customCheck1">
+	                <label class="custom-control-label" for="customCheck1">Remember password</label>
+	              </div>
+	              
+	              <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Sign in</button>
+	            </form>
+	          </div>
+	        </div>
+	      </div>
+	    </div>
+  	</div>
+  	
+	<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+	<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+	<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+</body>
+</html>

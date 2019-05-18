@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+   	    
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/template.css}">
+    
+    <title>...::: Oauth2 :::....</title>
+</head>
+<body>
+    <p th:text="'Do you authorize ' + ${authorizationRequest.clientId} + ' at ' + ${authorizationRequest.redirectUri} + ' to access your protected resources with scope ' + ${authorizationRequest.scope}" th:if="${false}">
+        Do you authorize "${authorizationRequest.clientId}" at "${authorizationRequest.redirectUri}" to access your
+        protected resources
+        with scope ${authorizationRequest.scope?join(", ")}.
+    </p>
+    
+    <div th:if="${false}">
+	    <p th:text="'State: ' + ${authorizationRequest.state}"></p>
+	    <p th:text="'Response Types: ' + ${authorizationRequest.responseTypes}"></p>
+	    <p th:text="'Resource Ids: ' + ${authorizationRequest.resourceIds}"></p>
+	    <p th:text="'authorities: ' + ${authorizationRequest.authorities}"></p>
+	    <p th:text="'Request Parameters ' + ${authorizationRequest.requestParameters}"></p>
+	    <p th:text="'Approval Parameters: ' + ${authorizationRequest.approvalParameters}"></p>
+    </div>
+    
+    
+    <div class="container">
+	    <div class="row">
+	      <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+	        <div class="card card-signin my-5">
+	          <div class="card-body">
+	            <h5 class="card-title text-center">Please Confirm</h5>
+	            
+	            <p th:text="'¿Do you authorize access to your protected resources?'" class="text-center"></p>
+	            <hr class="my-4">
+		        <form id="approveForm" method="post" name="confirmationForm" th:action="@{/oauth/authorize}" class="form-signin">
+		        	<input name="user_oauth_approval" value="true" type="hidden"/>
+			        <th:block th:each="scope : ${authorizationRequest.scope}" th:if="${false}">
+			        	<input type="checkbox" th:name="'scope.' + ${scope}" th:checked="true" th:value="${true}"/><span th:text="${scope}"></span><br/>
+			        </th:block>
+			        <button class="btn btn-lg btn-primary btn-block text-uppercase bg-primary" type="submit">Approve</button>
+		        </form>
+		        <br/>
+		        <form id="denyForm" method="post" name="confirmationForm" th:action="@{/oauth/authorize}" class="form-signin">
+		       		<input name="user_oauth_approval" value="false" type="hidden"/>
+		       		<button class="btn btn-lg btn-danger btn-block text-uppercase bg-danger" type="submit">Deny</button>	  
+		        </form>
+	          </div>
+	        </div>
+	      </div>
+	    </div>
+  	</div>
+  	
+    <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+	<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+	<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+	
+</body>
+</html>

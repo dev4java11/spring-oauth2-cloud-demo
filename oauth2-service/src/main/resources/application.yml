@@ -1,0 +1,42 @@
+server:
+  port: 8012
+  
+  servlet:    context-path: /uaa
+   
+#  ssl:
+#    enabled: false#    key-store-type: JKS
+#    key-store: classpath:keypairs/ssl.jks
+#    key-store-password: 123
+#    key-password: 123
+#    key-alias: ssl
+  
+spring:  application:    name: oauth2-service
+  
+  datasource:    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://localhost:3306/oauth
+    username: root
+    password: root
+    
+eureka:  client:    service-url:      defaultZone: http://localhost:8761/eureka/
+   
+security:  oauth2:    authorization:      jwt:        key-store: classpath:keypairs/oauth.jks
+        key-alias: oauth
+        key-store-password: 123
+        key-password: 123
+      realm: oauth2/client
+      check-token-access: isAuthenticated()
+      token-key-access: permitAll()
+    resource:
+      jwt:
+        key-value: |
+            -----BEGIN PUBLIC KEY-----
+            MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAoKaBnS8z2C+BTO0UVV2zbaUSPQYQZyMfwxwwwe8+QuRTnVG0IqBPD9CaJH7zAzVaThJIM3l3L9zqKsK50F13hO0/vbAUmAESHu2DOGwrrv7hUhGs6UI9s02ZMQcynCrcYhbo3N/NdQW4Z3iMywkNijsDP23P98eB9hwTg9FRL2Gvgj69IHmggG0DJ+q5SPl8yWhjoe1IO9H2ebH3+MUvPTTv+YRVo3WUE2/XuJTea0OtAs+K35pb6sp4NXpr8O4PdhkOeW98A/gz+asqnOUVHgnTsiIvOuwXerP10vD6zk7WtQEGQOllbe/ORKSze7ceU68T+K7V5NL3YpsUgOaelwIDAQAB
+            -----END PUBLIC KEY-----
+
+      id: ${spring.application.name}
+      service-id: ${spring.application.name}
+        
+    
+logging:  level:
+    org.springframework.web: DEBUG    org.springframework.security.oauth2: DEBUG
+    org.springframework.security.web.debug: DEBUG

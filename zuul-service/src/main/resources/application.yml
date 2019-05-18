@@ -1,0 +1,25 @@
+spring:  application:    name: zuul-service
+    
+server:  port: 8000
+  use-forward-headers: true
+  
+eureka:  client:    service-url:      defaultZone: http://localhost:8761/eureka/
+      
+      
+zuul:
+  add-host-header: true  add-proxy-headers: true
+  ignored-services: "*"
+  sensitive-headers: Cookie, Set-Cookie, Authorization  routes:
+    greetings-service:
+      service-id: greetings-service
+      path: /greetings/**
+  
+    oauth2-service:
+      service-id: oauth2-service
+      path: /uaa/**
+      strip-prefix: false
+      
+    ui-service:
+      service-id: ui-service
+      path: /ui/**
+      strip-prefix: falselogging:  level:    com.example.demo.filter: DEBUG

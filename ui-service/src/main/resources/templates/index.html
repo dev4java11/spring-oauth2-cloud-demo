@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+  	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  	
+  	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">  	
+  	<link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+  	<link rel="stylesheet" type="text/css" th:href="@{/webjars/font-awesome/css/all.min.css}"/>
+  	
+    <title>UI Demo App</title>
+</head>
+
+<body>
+	
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-6" th:with="user=${#request.getUserPrincipal()}">
+				<p th:text="'Welcome to UI Demo App Mr(s). ' + ${user.getPrincipal()}"></p>
+			</div>
+			<div class="col-2 offset-4">
+				<form method="post" th:action="@{/logout}">
+					<button class="btn btn-lg btn-primary bg-primary btn-block">Logout</button>
+				</form>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-12">
+				<div class="table-responsive">
+					<table class="table">
+						<thead class="thead-dark">
+							<tr>
+								<th>INDEX</th>
+								<th>ID</th>
+								<th>MESSAGE</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="message,iter : ${messages}">
+								<th scope="row" th:text="${iter.index + 1}"></th>
+								<td th:text="${message.id}"></td>
+								<td th:text="${message.payload}"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+	<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+	<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+</body>
+</html>
