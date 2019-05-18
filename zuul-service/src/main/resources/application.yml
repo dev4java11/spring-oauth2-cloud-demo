@@ -1,5 +1,3 @@
-spring:  application:    name: zuul-service
-    
 server:  port: 8000
   use-forward-headers: true
   

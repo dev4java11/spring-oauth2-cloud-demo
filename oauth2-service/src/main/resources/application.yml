@@ -10,8 +10,7 @@ server:
 #    key-password: 123
 #    key-alias: ssl
   
-spring:  application:    name: oauth2-service
-  
+spring:  
   datasource:    driver-class-name: org.mariadb.jdbc.Driver
     url: jdbc:mariadb://localhost:3306/oauth
     username: root
