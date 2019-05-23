@@ -1,7 +1,6 @@
 eureka:
   client:
-    fetch-registry: false    register-with-eureka: false
-      
+    fetch-registry: false    register-with-eureka: false#    service-url:#      defaultZone: http://localhost:8761/eureka/,http://192.168.0.18:8761/eureka/
 
 server:  port: 8761
   

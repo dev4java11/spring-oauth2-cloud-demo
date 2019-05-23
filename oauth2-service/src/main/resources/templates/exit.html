@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <title>...::: Oauth2 :::....</title>
+</head>
+
+<body>
+	<input id="logout_uri" type="hidden" th:value="${logout_uri}"/>
+	<input id="redirect_uri" type="hidden" th:value="${redirect_uri}"/>
+	<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+	<script type="text/javascript">
+	
+		$(document).ready(function(){
+			logout();
+		});
+	
+		function logout(){
+			var logout_uri = $("#logout_uri").val();
+			console.log("logout_uri: " + logout_uri);
+			var token = $("meta[name='_csrf']").attr("content");
+			var header = $("meta[name='_csrf_header']").attr("content");
+			$.ajax({
+				type: "POST",
+				url: logout_uri,
+				beforeSend: function(xhr) {
+					xhr.setRequestHeader(header, token);
+				},
+				success: function(data, textStatus, jqXHR) {
+               		console.log(status);
+               		redirect();
+                },
+                error: function(request, status, error) {
+                	console.log(status);
+                }
+			});
+		}
+		
+		function redirect(){
+			var redirect_uri = $("#redirect_uri").val();
+			console.log("redirect_uri: " + redirect_uri);
+			window.location.href = redirect_uri;
+		}
+	</script>
+</body>
+</html>

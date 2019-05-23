@@ -11,14 +11,6 @@
 </head>
 
 <body>
-	<p th:if="${param.error}">
-	  Login failed ...
-	</p>
-	
-	<p th:if="${param.logout}">
-		Logout succeeded.
-	</p>
-
 	<div class="container">
 	    <div class="row">
 	      <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
@@ -26,6 +18,15 @@
 	          <div class="card-body">
 	            <h5 class="card-title text-center">Sign In</h5>
 	            <form method="post" th:action="@{/do-login}" class="form-signin">
+	              
+	              <div class="form-label-group">
+	              	<div class="alert bg-danger text-white" role="alert" th:if="${param.error}">
+					  Login failed, your username or password are wrong
+					</div>
+					<div class="alert bg-success text-white" role="alert" th:if="${param.logout}">
+					  Logout succeeded.
+					</div>
+	              </div>
 	              
 	              <div class="form-label-group">
 	                <input id="itUsername" type="text" name="username" class="form-control" placeholder="Username" required autofocus />

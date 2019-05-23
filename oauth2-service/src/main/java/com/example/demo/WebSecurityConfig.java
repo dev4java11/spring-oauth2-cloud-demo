@@ -4,12 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
@@ -36,28 +38,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
-//			.authorizeRequests()//nv
-//				.antMatchers("/", "/login", "/do-logout").permitAll() //nv
-//				.anyRequest().authenticated()//nv
-//			.and() //nv
-				.formLogin()
+			.formLogin()
 				.loginPage("/login")
 				.loginProcessingUrl("/do-login")
-				.permitAll()// nv
-			.and()// nv
-				.requestMatchers() //nv
-				.antMatchers("/", "/login", "/do-login", "/oauth/authorize", "/oauth/confirm_access", "/exit")// nv
 			.and()
 				.logout()
-//				.logoutUrl("/do-logout") nv
+				.clearAuthentication(true)
+				.invalidateHttpSession(true)
+				.deleteCookies("OAUTHSESSIONID")
 			.and()
 				.authorizeRequests()
+				.antMatchers("/login", "/do-login", "/exit").permitAll()
+				.antMatchers(HttpMethod.GET, "/oauth/authorize").permitAll()
 				.anyRequest().authenticated()
 			.and()
 				.csrf();
-//			.and()
-//				.requiresChannel()
-//				.antMatchers(HttpMethod.GET, "/login", "/oauth/authorize").requiresSecure();
 	}
 	
 	@Override

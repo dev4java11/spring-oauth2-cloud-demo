@@ -47,8 +47,29 @@
 				</div>
 			</div>
 		</div>
+		<div class="row" th:if="${error}">
+			<div class="col-12">
+				<p th:text="${error}"></p>
+			</div>
+		</div>
+		<br/>
+		<div class="row">
+			<div class="col-12">
+				<h3><label>JSON WEB TOKEN</label></h3>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-12">
+				<div class="bg-light text-dark">
+					<pre>
+						<code>
+							<p th:utext="${tokenJSON}"></p>
+						</code>
+					</pre>
+				</div>
+			</div>
+		</div>
 	</div>
-
 
 	<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
 	<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>

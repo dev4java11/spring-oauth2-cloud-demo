@@ -20,6 +20,7 @@ public class Api {
 	@Data
 	@NoArgsConstructor
 	public class Greetings{
+		UriTemplate baseUri;
 		UriTemplate message;
 	}
 }

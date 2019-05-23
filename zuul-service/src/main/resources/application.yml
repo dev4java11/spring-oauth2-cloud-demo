@@ -5,19 +5,13 @@ eureka:  client:    service-url:      defaultZone: http://localhost:8761/eure
       
       
 zuul:
-  add-host-header: true  add-proxy-headers: true
-  ignored-services: "*"
-  sensitive-headers: Cookie, Set-Cookie, Authorization  routes:
-    greetings-service:
-      service-id: greetings-service
-      path: /greetings/**
-  
+  add-host-header: true
+  ignored-services: "*"  include-debug-header: true  routes:
     oauth2-service:
       service-id: oauth2-service
       path: /uaa/**
-      strip-prefix: false
-      
+      strip-prefix: false      sensitive-headers:      
     ui-service:
       service-id: ui-service
       path: /ui/**
-      strip-prefix: falselogging:  level:    com.example.demo.filter: DEBUG
+      strip-prefix: false      sensitive-headers:logging:  level:    com.example.demo.filter: NONE

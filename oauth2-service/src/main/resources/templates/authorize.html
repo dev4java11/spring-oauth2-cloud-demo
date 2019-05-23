@@ -6,17 +6,12 @@
    	    
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/template.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/pretty-checkbox.min.css}">
     
     <title>...::: Oauth2 :::....</title>
 </head>
 <body>
-    <p th:text="'Do you authorize ' + ${authorizationRequest.clientId} + ' at ' + ${authorizationRequest.redirectUri} + ' to access your protected resources with scope ' + ${authorizationRequest.scope}" th:if="${false}">
-        Do you authorize "${authorizationRequest.clientId}" at "${authorizationRequest.redirectUri}" to access your
-        protected resources
-        with scope ${authorizationRequest.scope?join(", ")}.
-    </p>
-    
-    <div th:if="${false}">
+    <div>
 	    <p th:text="'State: ' + ${authorizationRequest.state}"></p>
 	    <p th:text="'Response Types: ' + ${authorizationRequest.responseTypes}"></p>
 	    <p th:text="'Resource Ids: ' + ${authorizationRequest.resourceIds}"></p>
@@ -24,8 +19,7 @@
 	    <p th:text="'Request Parameters ' + ${authorizationRequest.requestParameters}"></p>
 	    <p th:text="'Approval Parameters: ' + ${authorizationRequest.approvalParameters}"></p>
     </div>
-    
-    
+   	
     <div class="container">
 	    <div class="row">
 	      <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
@@ -33,13 +27,23 @@
 	          <div class="card-body">
 	            <h5 class="card-title text-center">Please Confirm</h5>
 	            
-	            <p th:text="'¿Do you authorize access to your protected resources?'" class="text-center"></p>
-	            <hr class="my-4">
+	            <p th:text="'¿Do you authorize access to your protected resources?, please select the permissions you wish to grant to the application.'" class="text-center"></p>
+	           	<hr class="my-4">
 		        <form id="approveForm" method="post" name="confirmationForm" th:action="@{/oauth/authorize}" class="form-signin">
 		        	<input name="user_oauth_approval" value="true" type="hidden"/>
-			        <th:block th:each="scope : ${authorizationRequest.scope}" th:if="${false}">
-			        	<input type="checkbox" th:name="'scope.' + ${scope}" th:checked="true" th:value="${true}"/><span th:text="${scope}"></span><br/>
+			        <th:block th:each="scope : ${authorizationRequest.scope}">
+			        	<div class="pretty p-default">
+			        		<input type="checkbox" th:name="'scope.' + ${scope}" th:checked="true" th:value="${true}"/>
+			        		<div class="state p-primary">
+			        			<label th:text="${scope} + ', this access grant only read messages.'" th:if="${scope} == 'read'"></label>
+			        			<label th:text="${scope} + ', this access grant only create messages.'" th:if="${scope} == 'create'"></label>
+			        			<label th:text="${scope} + ', this access grant only update messages.'" th:if="${scope} == 'update'"></label>
+			        			<label th:text="${scope} + ', this access grant only delete messages.'" th:if="${scope} == 'delete'"></label>
+			        		</div>
+			        	</div>
+			        	<br/>
 			        </th:block>
+			        <br/>
 			        <button class="btn btn-lg btn-primary btn-block text-uppercase bg-primary" type="submit">Approve</button>
 		        </form>
 		        <br/>

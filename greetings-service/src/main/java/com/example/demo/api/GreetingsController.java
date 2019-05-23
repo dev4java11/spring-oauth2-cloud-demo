@@ -30,7 +30,7 @@ public class GreetingsController {
 	public void init() {
 		map.put(uuid(), "Hello World");
 		map.put(uuid(), "Spring is awesome");
-		map.put(uuid(), "Oauth 2 is very hard");
+		map.put(uuid(), "Oauth 2 is awesome");
 	}
 	
 	@GetMapping("/messages")

@@ -1,9 +1,9 @@
-server:  port: 8060    servlet:    context-path: /ui#    session:#      cookie:#        name: UISESSIONID
+server:  port: 8060    servlet:    context-path: /ui    session:      cookie:        name: UISESSIONID
 
-spring:  thymeleaf:    cache: false    enabled: trueauth-server:  base-uri: http://localhost:8000/uaa
+spring:  thymeleaf:    cache: false    enabled: trueauth-server:  base-uri: http://localhost:8000/uaa  exit: ${auth-server.base-uri}/exit?redirect_uri={redirect_uri}
 security:  oauth2:    client:      client-id: frontendapp
       client-secret: 123
       access-token-uri: ${auth-server.base-uri}/oauth/token
-      user-authorization-uri: ${auth-server.base-uri}/oauth/authorize      scope: read, write
-    resource:      id: ${spring.application.name}      token-info-uri: ${auth-server.base-uri}/oauth/check_token      user-info-uri: ${auth-server.base-uri}/api/user/me
-eureka:  client:    service-url:      defaultZone: http://localhost:8761/eureka/            logging:  level:    org.springframework.web: DEBUG    org.springframework.security.oauth2.client: DEBUG    org.springframework.security.web: DEBUG    api:  greetings:    message: http://localhost:8000/greetings/api/messages
+      user-authorization-uri: ${auth-server.base-uri}/oauth/authorize      scope: read, create, update, delete
+    resource:      id: ${spring.application.name}      token-info-uri: ${auth-server.base-uri}/oauth/check_token      user-info-uri: ${auth-server.base-uri}/api/user/me    sso:      login-path: /login
+eureka:  client:    service-url:      defaultZone: http://localhost:8761/eureka/            logging:  level:    org.springframework.web: DEBUG    org.springframework.security.oauth2.client: DEBUG    org.springframework.security.web: DEBUG    api:  greetings:    base-uri: http://greetings-service    message: ${api.greetings.base-uri}/api/messages
