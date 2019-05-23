@@ -14,4 +14,4 @@ zuul:
     ui-service:
       service-id: ui-service
       path: /ui/**
-      strip-prefix: false      sensitive-headers:logging:  level:    com.example.demo.filter: NONE
+      strip-prefix: false      sensitive-headers:logging:  level:    com.example.demo.filter: NONE    org.springframework.cloud.netflix.zuul.filters: DEBUG

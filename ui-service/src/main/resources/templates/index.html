@@ -69,6 +69,34 @@
 				</div>
 			</div>
 		</div>
+		<br/>
+		<div class="row">
+			<div class="col-12">
+				<h3><label>PUBLIC KEY</label></h3>
+			</div>
+		</div>
+		<div class="row" th:if="${errorTokenKey}">
+			<div class="col-lg-12">
+				<p th:text="${errorTokenKey}"></p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-12">
+				<div class="bg-light text-dark">
+					<pre>
+						<code>
+							<p th:utext="${publicKey}"></p>
+						</code>
+					</pre>
+				</div>
+			</div>
+		</div>
+		<br/>
+		<div class="row">
+			<div class="col-12">
+				<p th:utext="'Copy and paste the <b>access_token</b> and the <b>public key</b> in <a href=https://jwt.io/>https://jwt.io/<a>, and try it ;).'"></p>
+			</div>
+		</div>
 	</div>
 
 	<script th:src="@{/webjars/jquery/jquery.min.js}"></script>

@@ -24,7 +24,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.example.demo.util.Api;
 import com.example.demo.util.AuthorizatizationServer;
 import com.example.demo.util.DtoMessage;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.slf4j.Slf4j;
@@ -64,6 +63,16 @@ public class UIController {
 			model.addAttribute("error", response.getBody().get("error"));
 			model.addAttribute("token", new ArrayList<>());
 		}
+		
+		ResponseEntity<Map<String, String>> responseTokenKey = getTokenKey();
+		if(responseTokenKey.getStatusCode().is2xxSuccessful()) {
+			model.addAttribute("algorithm", responseTokenKey.getBody().get("alg"));
+			model.addAttribute("publicKey", responseTokenKey.getBody().get("value"));
+		}else {
+			model.addAttribute("algorithm", "");
+			model.addAttribute("publicKey", "");
+			model.addAttribute("errorTokenKey", responseTokenKey.getBody().get("error"));
+		}
 		model.addAttribute("token", template.getAccessToken());
 		model.addAttribute("tokenJSON", printToJson(template.getAccessToken()));
 		return "index";
@@ -79,6 +88,17 @@ public class UIController {
 	private ResponseEntity<Map<String, String>> getAllMessages(){
 		try {
 			ResponseEntity<Map<String, String>> response = template.exchange(api.getGreetings().getMessage().toString(), HttpMethod.GET, null, new ParameterizedTypeReference<Map<String, String>>(){});
+			return response;
+		}catch(OAuth2Exception ex) {
+			Map<String, String> map = new LinkedHashMap<>();
+			map.put("error", ex.getSummary());
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(map);
+		}
+	}
+	
+	private ResponseEntity<Map<String, String>> getTokenKey(){
+		try {
+			ResponseEntity<Map<String, String>> response = template.exchange(api.getOauth().getTokenKey().toString(), HttpMethod.GET, null, new ParameterizedTypeReference<Map<String, String>>(){});
 			return response;
 		}catch(OAuth2Exception ex) {
 			Map<String, String> map = new LinkedHashMap<>();

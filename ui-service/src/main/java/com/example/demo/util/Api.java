@@ -16,11 +16,18 @@ import lombok.NoArgsConstructor;
 public class Api {
 	
 	Greetings greetings = new Greetings();
+	Oauth oauth = new Oauth();
 
 	@Data
 	@NoArgsConstructor
 	public class Greetings{
 		UriTemplate baseUri;
 		UriTemplate message;
+	}
+	
+	@Data
+	@NoArgsConstructor
+	public class Oauth{
+		UriTemplate tokenKey;
 	}
 }

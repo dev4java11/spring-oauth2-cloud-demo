@@ -2,8 +2,6 @@ package com.example.demo;
 
 import java.util.Optional;
 
-import javax.sql.DataSource;
-
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -18,22 +16,15 @@ import org.springframework.core.io.Resource;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.config.annotation.builders.InMemoryClientDetailsServiceBuilder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
-import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.approval.ApprovalStore;
-import org.springframework.security.oauth2.provider.approval.DefaultUserApprovalHandler;
 import org.springframework.security.oauth2.provider.approval.InMemoryApprovalStore;
-import org.springframework.security.oauth2.provider.approval.UserApprovalHandler;
-import org.springframework.security.oauth2.provider.client.InMemoryClientDetailsService;
-import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
 import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.code.InMemoryAuthorizationCodeServices;
-import org.springframework.security.oauth2.provider.code.JdbcAuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
@@ -167,11 +158,17 @@ public class AuthorizacionServerConfig extends AuthorizationServerConfigurerAdap
 		return inMemory;
 	}
 	
-	@Bean
-	public UserApprovalHandler userApprovalHandler() {
-		DefaultUserApprovalHandler approval = new DefaultUserApprovalHandler();
-		return approval;
-	}
+	/**
+	 * Bean for approval any scope
+	 * @see <a href="https://www.oauth.com/oauth2-servers/scope/user-interface/">https://www.oauth.com/oauth2-servers/scope/user-interface/</a>
+	 * @return
+	 */
+//	@Bean
+//	public UserApprovalHandler defaultUserApprovalHandler() {
+//		DefaultUserApprovalHandler approval = new DefaultUserApprovalHandler();
+//		return approval;
+//	}
+	
 	
 	@Override
 	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
@@ -182,7 +179,8 @@ public class AuthorizacionServerConfig extends AuthorizationServerConfigurerAdap
 				.secret(passwordEncoder().encode("123"))
 				.scopes("read", "create", "update", "delete")
 				.authorizedGrantTypes("authorization_code", "refresh_token")
-				.redirectUris("http://localhost:8060/ui/login", "http://localhost:8000/ui/login")
+				.redirectUris("http://localhost:8060/ui/login", // for real client application 
+						"http://localhost:8000/ui/login")// for to proxy (zuul) to real client application
 				.authorities("ROLE_USER", "ROLE_ADMIN")
 				.accessTokenValiditySeconds(1209600)// 14 days
 				.autoApprove(false);
@@ -197,7 +195,7 @@ public class AuthorizacionServerConfig extends AuthorizationServerConfigurerAdap
 			.tokenStore(jwtTokenStoreAuthorizationServer())// token store for jwt
 			.accessTokenConverter(jwtAccessTokenConverter())// token converter for jwt
 			.approvalStore(inMemoryApprovalStore())// storage approval store in memory
-//			.userApprovalHandler(userApprovalHandler()) // disable because use aproval with checkbox https://www.oauth.com/oauth2-servers/scope/checkboxes/
+//			.userApprovalHandler(defaultUserApprovalHandler()) // disable in favor the use user approval handler with checkbox https://www.oauth.com/oauth2-servers/scope/checkboxes/
 			.addInterceptor(new OauthSessionInvalidationInterceptor());
 	}
 	
