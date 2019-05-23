@@ -11,7 +11,7 @@
     <title>...::: Oauth2 :::....</title>
 </head>
 <body>
-    <div>
+    <div th:if="${false}">
 	    <p th:text="'State: ' + ${authorizationRequest.state}"></p>
 	    <p th:text="'Response Types: ' + ${authorizationRequest.responseTypes}"></p>
 	    <p th:text="'Resource Ids: ' + ${authorizationRequest.resourceIds}"></p>
